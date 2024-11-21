@@ -1,0 +1,156 @@
+# Screenshot configurations for different instrument types
+# Each instrument type can have the following properties:
+# - commands: List of SCPI commands to execute in order
+# - query_type: Type of query to perform (binary_values, read_raw)
+# - query_command: Command to query the screenshot data
+# - file_type: Type of file to save (PNG, BMP, JPG)
+# - binary_params: Parameters for binary_values query (if applicable)
+# - pre_cleanup: Whether to cleanup files before screenshot (default: true)
+
+Scope Keysight S:
+  commands:
+    - ":STOP; *WAI"
+  query_type: binary_values
+  query_command: ":DISP:DATA? PNG"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Scope Batronix:
+  commands:
+    - "DISPlay:SCReenshot?"
+  query_type: binary_values
+  query_command: "DISPlay:SCReenshot? PNG"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Scope Keysight X:
+  commands:
+    - ":STOP; *WAI"
+    - ":HARDcopy:IGColors 0"
+  query_type: binary_values
+  query_command: ":DISP:DATA? PNG"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Scope Rigol:
+  commands:
+    - ":STOP; *WAI"
+  query_type: binary_values
+  query_command: ":DISP:DATA? PNG"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Scope Tektronix:
+  commands:
+    - ":SAV:IMAG:FILEF PNG"
+    - ":HARDCOPY START"
+  query_type: read_raw
+  file_type: PNG
+
+VNA Keysight:
+  commands:
+    - ':MMEM:STOR:IMAG "D:\SCREENSHOT.PNG"'
+  query_type: binary_values
+  query_command: ':MMEM:TRAN? "D:\SCREENSHOT.PNG"'
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+VNA Anritsu:
+  commands:
+    - ":MMEM:MSIS INT"
+    - ':MMEM:STOR:JPEG "SCREENSHOT.JPG"'
+  query_type: binary_values
+  query_command: ':MMEM:DATA? "SCREENSHOT.JPG"'
+  file_type: JPG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+RF Signal Generator Keysight:
+  commands:
+    - ":DISP:CAPT"
+  query_type: binary_values
+  query_command: ':MEM:DATA? "DISPLAY.BMP"'
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Spectrum Analyzer Keysight:
+  commands:
+    - ':MMEM:STOR:SCR "D:\SCREENSHOT.PNG"'
+  query_type: binary_values
+  query_command: ':MMEM:DATA? "D:\SCREENSHOT.PNG"'
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Digital Multimeter Keysight:
+  commands:
+    - ":HCOP:SDUM:DATA:FORM PNG"
+  query_type: binary_values
+  query_command: ":HCOP:SDUM:DATA?"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Source Measure Unit Keysight:
+  commands:
+    - ":HCOP:SDUM:FORM PNG; *WAI"
+  query_type: binary_values
+  query_command: ":HCOP:SDUM:DATA?"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+    delay: 0.2
+
+Power Supply Rigol:
+  commands: []
+  query_type: binary_values
+  query_command: ":SYST:PRINT? BMP"
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+    delay: 0.2
+
+Electronic Load Rigol:
+  commands: []
+  query_type: binary_values
+  query_command: ":PROJ:WND:DATA?"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+    delay: 0.2
+
+Function Generator Rigol 1000Z:
+  commands: []
+  query_type: binary_values
+  query_command: ":DISP:DATA?"
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Function Generator Rigol 4000:
+  commands: []
+  query_type: binary_values
+  query_command: ":HCOP:SDUM:DATA?"
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray

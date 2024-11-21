@@ -1,0 +1,96 @@
+INSTRUMENT;TYPE
+MAGNOVA; Scope Batronix
+DSOS804A;Scope Keysight S
+DSOS604A;Scope Keysight S
+DSOS404A;Scope Keysight S
+DSOS254A;Scope Keysight S
+DSOS204A;Scope Keysight S
+DSOS104A;Scope Keysight S
+DSOS054A;Scope Keysight S
+MSOS804A;Scope Keysight S
+MSOS604A;Scope Keysight S
+MSOS404A;Scope Keysight S
+MSOS254A;Scope Keysight S
+MSOS204A;Scope Keysight S
+MSOS104A;Scope Keysight S
+MSOS054A;Scope Keysight S
+DSO-X 1102A;Scope Keysight X
+DSO-X 1102G;Scope Keysight X
+DSO-X 1202A;Scope Keysight X
+DSO-X 1202G;Scope Keysight X
+DSO-X 1204A;Scope Keysight X
+DSO-X 1204G;Scope Keysight X
+MSO1104Z;Scope Rigol
+DS1054Z;Scope Rigol
+DS1104Z;Scope Rigol
+DPO2014;Scope Tektronix
+MSO1014;Scope Tektronix
+MSO4104;Scope Tektronix
+E5071C;VNA Keysight
+BODE100;VNA Omicron Labs
+MS2036A/25/27/10/15;VNA Anritsu
+N5171B;RF Signal Generator Keysight
+N5172B;RF Signal Generator Keysight
+N9000A;Spectrum Analyzer Keysight
+N9000B;Spectrum Analyzer Keysight
+N9010A;Spectrum Analyzer Keysight
+N9010B;Spectrum Analyzer Keysight
+N9020A;Spectrum Analyzer Keysight
+N9020B;Spectrum Analyzer Keysight
+N9021B;Spectrum Analyzer Keysight
+N9030A;Spectrum Analyzer Keysight
+N9030B;Spectrum Analyzer Keysight
+N9040A;Spectrum Analyzer Keysight
+N9040B;Spectrum Analyzer Keysight
+N9041B;Spectrum Analyzer Keysight
+DSA815;Spectrum Analyzer Rigol
+RSA5065;Spectrum Analyzer Rigol
+RSA5065N;Spectrum Analyzer Rigol
+RSA3015N;Spectrum Analyzer Rigol
+SVA1015X;Spectrum Analyzer Siglent
+SSA3032X;Spectrum Analyzer Siglent
+FSWP-26;Signal Analyzer R&S
+34401A;Digital Multimeter Keysight
+34461A;Digital Multimeter Keysight
+34465A;Digital Multimeter Keysight
+34470A;Digital Multimeter Keysight
+B2962A;Source Measure Unit Keysight
+B2902A;Source Measure Unit Keysight
+DP832A;Power Supply Rigol
+DP832;Power Supply Rigol
+DP831A;Power Supply Rigol
+DP831;Power Supply Rigol
+33509B;Function Generator Keysight 3Series
+33510B;Function Generator Keysight 3Series
+33511B;Function Generator Keysight 3Series
+33512B;Function Generator Keysight 3Series
+33519B;Function Generator Keysight 3Series
+33520B;Function Generator Keysight 3Series
+33521B;Function Generator Keysight 3Series
+33522B;Function Generator Keysight 3Series
+33611A;Function Generator Keysight 3Series
+33612A;Function Generator Keysight 3Series
+33621A;Function Generator Keysight 3Series
+33622A;Function Generator Keysight 3Series
+DG1022Z;Function Generator Rigol 1000Z
+DG1032Z;Function Generator Rigol 1000Z
+DG1062Z;Function Generator Rigol 1000Z
+DG4062;Function Generator Rigol 4000
+DG4102;Function Generator Rigol 4000
+DG4162;Function Generator Rigol 4000
+DG4202;Function Generator Rigol 4000
+AFG3252;Function Generator Tektronix
+53230A;Counter Keysight
+U2004A;USB Power Sensor Keysight
+M300;Datalogger Rigol
+DL3021A;Electronic Load Rigol
+ARSW6RF;6Way Rf Relay DL1DWG
+ARSW6DO;6 Digital Outputs DL1DWG
+ARSW2RP;2 Power Relays DL1DWG
+ARSW3RBNC;3 Rf BNC Relays DL1DWG
+ARADIO;Analog Digital IO DL1DWG
+ARPOWOC;Power Outlet Controller DL1DWG
+ARCALCO;Calibration Controller DL1DWG
+ARSWTRAN;Transfer Switch DL1DWG
+ARRFPOWMET;RF Power Meter DL1DWG
+ARRFPOWMETMINI;RF Power Meter Mini DL1DWG

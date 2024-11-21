@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PythonScreenShot</class>
+ <widget class="QWidget" name="PythonScreenShot">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DL1DWG Python Screenshot GUI V1.5 2020/06 (C) DL1DWG under GPL V3</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="leftPanel">
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+     </property>
+     <property name="minimumWidth" stdset="0">
+      <number>500</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="headerLayout">
+       <item>
+        <widget class="QLabel" name="headerTopZ">
+         <property name="font">
+          <font>
+           <family>Tahoma</family>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>V1.5 2020/06</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="headerTopS">
+         <property name="font">
+          <font>
+           <family>Tahoma</family>
+           <pointsize>18</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>PYTHON SCPI SCREENSHOT</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="scpiDinoLabel">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="doFindButton">
+       <property name="text">
+        <string>Find Instruments</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelStatic">
+       <property name="font">
+        <font>
+         <family>Tahoma</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Available VISA Instruments</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="instrTable">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>500</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+       </property>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Description</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Manufacturer</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>VISA ID</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="refreshLayout">
+       <item>
+        <widget class="QPushButton" name="doRefreshButton">
+         <property name="text">
+          <string>Get Screen</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doAutoRefreshButton">
+         <property name="text">
+          <string>Auto Refresh</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="refreshPeriodLayout">
+         <item>
+          <widget class="QLabel" name="labelAutoRefPeriod">
+           <property name="text">
+            <string>Auto Refresh Period (ms)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="autoRefPeriodEntry">
+           <property name="text">
+            <string>1000</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doSaveButton">
+         <property name="text">
+          <string>Save to ...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="commandButtonsLayout">
+       <item>
+        <widget class="QPushButton" name="doSendClearButton">
+         <property name="text">
+          <string>Clear Error</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doSendResetButton">
+         <property name="text">
+          <string>Send Reset</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doGetLastErrorButton">
+         <property name="text">
+          <string>Get Last Error</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doRunButton">
+         <property name="text">
+          <string>Send Run</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="scpiCommandLayout">
+       <item>
+        <layout class="QHBoxLayout" name="sendCommandLayout">
+         <item>
+          <widget class="QPushButton" name="doSendCommandButton">
+           <property name="text">
+            <string>Send Command</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="commandEntryLayout">
+           <item>
+            <widget class="QLabel" name="labelScpiCommand">
+             <property name="text">
+              <string>SCPI Command Text</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="scpiCommandEntry"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="replyLayout">
+         <item>
+          <widget class="QLabel" name="labelScpiReplyStatic">
+           <property name="text">
+            <string>Last SCPI Reply</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelScpiReply">
+           <property name="text">
+            <string>*None*</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="screenshotLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>2</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

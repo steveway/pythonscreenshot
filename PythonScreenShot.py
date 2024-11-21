@@ -33,7 +33,6 @@ from typing import Dict, List, Optional, Union
 # Third-party imports
 import yaml
 import array
-import numpy
 import pyvisa
 import logging
 from PIL import Image, ImageDraw, ImageFont
@@ -103,9 +102,9 @@ logging.info(f"Starting application (Compiled: {is_compiled})")
 SCREENSHOT_EXTENSIONS = ['.PNG', '.BMP', '.JPG']
 DEFAULT_CHUNK_SIZE = 8000
 DEFAULT_TIMEOUT = 30000
-INSTRUMENTS_CSV = get_file_near_exe('PythonScreenShotInstruments.CSV')
-SCREENSHOT_CONFIG = get_file_near_exe('instrument_screenshots.yaml')
-VERSION_CONFIG = get_file_inside_exe('version.yaml')
+INSTRUMENTS_CSV = get_file_near_exe('config/PythonScreenShotInstruments.CSV')
+SCREENSHOT_CONFIG = get_file_near_exe('config/instrument_screenshots.yaml')
+VERSION_CONFIG = get_file_inside_exe('config/version.yaml')
 
 # Global variables
 rm = pyvisa.ResourceManager()
@@ -372,7 +371,7 @@ def GetArDeviceScreenShot(instr):
     fontSize  = 64
     imgSizeX  = int(maxLen * fontSize * 0.75) + 20
     imgSizeY  = int(noOfLines * fontSize * 1.3)
-    textFont  = ImageFont.truetype(get_file_inside_exe('PythonScreenShotFont.ttf'),fontSize)
+    textFont  = ImageFont.truetype(get_file_inside_exe('resources/fonts/PythonScreenShotFont.ttf'),fontSize)
     
     # create image and draw space, set origin    
     img       = Image.new('RGB', (imgSizeX,imgSizeY), color = (73, 109, 137))
@@ -417,7 +416,7 @@ def GetRigolDP832DeviceScreenShot(instr):
     noOfLines = 7
     imgSizeX  = int(maxLen * fontSize * 0.75) + 20
     imgSizeY  = int(noOfLines * fontSize * 1.3)
-    textFont  = ImageFont.truetype(get_file_inside_exe('PythonScreenShotFont.ttf'),fontSize)
+    textFont  = ImageFont.truetype(get_file_inside_exe('resources/fonts/PythonScreenShotFont.ttf'),fontSize)
     
     # create image and draw space, set origin    
     img       = Image.new('RGB', (imgSizeX,imgSizeY), color = (73, 109, 137))
@@ -465,7 +464,7 @@ def GetKeysightU2004ADeviceScreenShot(instr):
     noOfLines = 1
     imgSizeX  = int(maxLen * fontSize * 0.75) + 20
     imgSizeY  = int(noOfLines * fontSize * 1.3)
-    textFont  = ImageFont.truetype(get_file_inside_exe('PythonScreenShotFont.ttf'),fontSize)
+    textFont  = ImageFont.truetype(get_file_inside_exe('resources/fonts/PythonScreenShotFont.ttf'),fontSize)
     
     # create image and draw space, set origin    
     img       = Image.new('RGB', (imgSizeX,imgSizeY), color = (73, 109, 137))
@@ -562,7 +561,9 @@ class PythonScreenShot(QWidget):
         
         # Load UI
         loader = QUiLoader()
-        ui_file = QFile(get_file_inside_exe("mainwindow.ui"))
+        ui_file_path = get_file_inside_exe("resources/ui/mainwindow.ui")
+        print(f"Loading UI from {ui_file_path}")
+        ui_file = QFile(ui_file_path)
         ui_file.open(QFile.ReadOnly)
         self.ui = loader.load(ui_file)
         ui_file.close()
@@ -665,7 +666,7 @@ class PythonScreenShot(QWidget):
         self.ui.instrTable.setSelectionBehavior(QTableWidget.SelectRows)
         
         # Load the SCPI dino image
-        dino_path = get_file_inside_exe('SCPILogoDinosaur.png')
+        dino_path = get_file_inside_exe('resources/images/SCPILogoDinosaur.png')
         self.scpiDinoPixMap = QPixmap(dino_path)
         if not self.scpiDinoPixMap.isNull():
             self.ui.scpiDinoLabel.setPixmap(self.scpiDinoPixMap)

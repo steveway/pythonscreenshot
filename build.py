@@ -25,7 +25,7 @@ logging.basicConfig(
 def load_version_info():
     """Load version information from version.yaml"""
     try:
-        with open('version.yaml', 'r') as f:
+        with open('config/version.yaml', 'r') as f:
             return yaml.safe_load(f)
     except Exception as e:
         logging.error(f"Failed to load version info: {e}")
@@ -37,22 +37,8 @@ def get_data_file_args():
     
     try:
         # Add YAML files that should be included in the executable
-        args.append("--include-data-files=version.yaml=version.yaml")
-        args.append("--include-data-files=mainwindow.ui=mainwindow.ui")
-        args.append("--include-data-files=PythonScreenShotFont.ttf=PythonScreenShotFont.ttf")
-        
-        # Add icon files
-        if os.path.exists("SCPILogoDinosaur.ico"):
-            args.append("--include-data-files=SCPILogoDinosaur.ico=SCPILogoDinosaur.ico")
-            logging.info("ICO file found and included")
-        else:
-            logging.warning("ICO file not found")
-            
-        if os.path.exists("SCPILogoDinosaur.png"):
-            args.append("--include-data-files=SCPILogoDinosaur.png=SCPILogoDinosaur.png")
-            logging.info("PNG file found and included")
-        else:
-            logging.warning("PNG file not found")
+        args.append("--include-data-dir=config=config")
+        args.append("--include-data-dir=resources=resources")
         
         logging.info(f"Data files to be included: {args}")
         return args
@@ -89,7 +75,6 @@ def build_application():
             "--include-package=PySide6.QtGui",
             "--include-package=PySide6.QtWidgets",
             "--include-package=shiboken6",
-            "--include-package=numpy",  # Include numpy as it's required
             "--report=compilation-report.xml"
         ]
         
@@ -106,8 +91,8 @@ def build_application():
         ])
         
         # Add icon if it exists
-        if os.path.exists("SCPILogoDinosaur.ico"):
-            cmd_parts.append("--windows-icon-from-ico=SCPILogoDinosaur.ico")
+        if os.path.exists("resources/images/SCPILogoDinosaur.ico"):
+            cmd_parts.append("--windows-icon-from-ico=resources/images/SCPILogoDinosaur.ico")
         
         # Add output configuration
         cmd_parts.extend([
@@ -150,12 +135,12 @@ def build_application():
                 # Copy external files next to the executable
                 exe_dir = "dist"
                 external_files = [
-                    'instrument_screenshots.yaml',
-                    'PythonScreenShotInstruments.CSV'
+                    'config/instrument_screenshots.yaml',
+                    'config/PythonScreenShotInstruments.CSV'
                 ]
                 for file in external_files:
                     if os.path.exists(file):
-                        shutil.copy2(file, os.path.join(exe_dir, file))
+                        shutil.copy2(file, os.path.join(exe_dir, os.path.basename(file)))
                         logging.info(f"Copied {file} to dist directory")
                     else:
                         logging.warning(f"External file {file} not found")

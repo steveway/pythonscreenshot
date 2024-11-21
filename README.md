@@ -11,6 +11,7 @@ Author: DL1DWG
 ## Description
 
 PythonScreenShot is a tool that allows you to make screenshots from SCPI resources. It provides a graphical user interface for easy interaction with various instrument types.
+Original Code from: https://electronicprojectsforfun.wordpress.com/a-generic-screen-capture-tool-for-scpi-instruments/
 
 ## Features
 

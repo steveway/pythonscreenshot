@@ -669,7 +669,9 @@ class PythonScreenShot(QWidget):
         dino_path = get_file_inside_exe('resources/images/SCPILogoDinosaur.png')
         self.scpiDinoPixMap = QPixmap(dino_path)
         if not self.scpiDinoPixMap.isNull():
-            self.ui.scpiDinoLabel.setPixmap(self.scpiDinoPixMap)
+            label_size = self.ui.scpiDinoLabel.size()
+            scaled_pixmap = self.scpiDinoPixMap.scaled(label_size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            self.ui.scpiDinoLabel.setPixmap(scaled_pixmap)
             logging.info(f"Loaded SCPI dino image from {dino_path}")
         else:
             logging.error(f"Failed to load SCPI dino image from {dino_path}")

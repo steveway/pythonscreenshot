@@ -53,6 +53,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QComboBox" name="languageComboBox">
+         <property name="minimumWidth">
+          <number>120</number>
+         </property>
+         <property name="toolTip">
+          <string>Select Language</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="scpiDinoLabel">
          <property name="minimumSize">
           <size>

@@ -49,7 +49,8 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QMessageBox,
     QSizePolicy,
-    QCheckBox
+    QCheckBox,
+    QComboBox
 )
 from PySide6.QtGui import (
     QPixmap,
@@ -62,6 +63,8 @@ from PySide6.QtCore import (
     QTimer,
     QFile,
     QSize,
+    QTranslator,
+    QLocale
 )
 from PySide6.QtUiTools import QUiLoader
 
@@ -98,6 +101,26 @@ else:
     )
 
 logging.info(f"Starting application (Compiled: {is_compiled})")
+
+def load_translations(app, locale_name=None):
+    """Load translations for the application."""
+    if locale_name is None:
+        locale_name = QLocale.system().name()
+
+    logging.info(f"Loading translations for {locale_name}")
+    
+    # Remove any existing translators
+    for translator in app.findChildren(QTranslator):
+        app.removeTranslator(translator)
+    
+    translator = QTranslator(app)
+    translation_file = f"resources/translations/pythonscreenshot_{locale_name}.qm"
+    
+    if translator.load(get_file_inside_exe(translation_file)):
+        app.installTranslator(translator)
+        logging.info(f"Loaded translations for {locale_name}")
+    else:
+        logging.warning(f"Could not load translations for {locale_name}")
 
 # Constants
 SCREENSHOT_EXTENSIONS = ['.PNG', '.BMP', '.JPG']
@@ -574,6 +597,7 @@ class PythonScreenShot(QWidget):
         self.visaIdList = []
         self.timer = None
         self.interval = 1000
+        self.none_text = "*None*"  # Store the default none text
         
         # Load UI
         loader = QUiLoader()
@@ -588,6 +612,9 @@ class PythonScreenShot(QWidget):
         self.main_layout = QVBoxLayout(self)
         self.main_layout.addWidget(self.ui)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Set up language selector
+        self.setup_language_selector()
         
         # Set size policies
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -605,8 +632,12 @@ class PythonScreenShot(QWidget):
         # Set minimum window size
         self.setMinimumSize(800, 600)
         
-        # Initialize UI elements
+        # Initialize UI elements and translations
         self.initUI()
+        self.update_translations()
+        
+        # Show the window
+        self.show()
 
     def resizeEvent(self, event):
         """Handle main window resize events"""
@@ -700,8 +731,92 @@ class PythonScreenShot(QWidget):
         # Set up resizing behavior
         self.ui.screenshotLabel.setScaledContents(True)
         
-        self.show()
-
+    def setup_language_selector(self):
+        """Set up the language selection combo box."""
+        self.languages = {
+            "English": "en_US",
+            "Deutsch": "de_DE",
+            "Français": "fr_FR",
+            "Español": "es_ES"
+        }
+        
+        # Add languages to combo box
+        self.ui.languageComboBox.addItems(self.languages.keys())
+        
+        # Set current language based on system locale
+        current_locale = QLocale.system().name()
+        for name, locale in self.languages.items():
+            if locale.startswith(current_locale[:2]):
+                self.ui.languageComboBox.setCurrentText(name)
+                break
+        else:
+            # Default to English if system locale is not supported
+            self.ui.languageComboBox.setCurrentText("English")
+        
+        # Connect change event
+        self.ui.languageComboBox.currentTextChanged.connect(self.change_language)
+    
+    def change_language(self, language_name):
+        """Change the application language."""
+        if language_name in self.languages:
+            locale_name = self.languages[language_name]
+            logging.info(f"Changing language to {locale_name}")
+            
+            # Load translations
+            load_translations(QApplication.instance(), locale_name)
+            
+            # Update all UI elements
+            self.update_translations()
+            
+            # Log completion
+            logging.info(f"Language changed to {locale_name}")
+    
+    def update_translations(self):
+        """Update all translatable UI elements after language change."""
+        # Update window title
+        self.setWindowTitle(QApplication.translate("PythonScreenShot", 
+            "DL1DWG Python Screenshot GUI V1.5 2020/06 (C) DL1DWG under GPL V3"))
+        
+        # Update header labels
+        self.ui.headerTopZ.setText(QApplication.translate("PythonScreenShot", "V1.5 2020/06"))
+        self.ui.headerTopS.setText(QApplication.translate("PythonScreenShot", "PYTHON SCPI SCREENSHOT"))
+        
+        # Update buttons
+        self.ui.doFindButton.setText(QApplication.translate("PythonScreenShot", "Find Instruments"))
+        self.ui.doRefreshButton.setText(QApplication.translate("PythonScreenShot", "Get Screen"))
+        self.ui.doAutoRefreshButton.setText(QApplication.translate("PythonScreenShot", "Auto Refresh"))
+        self.ui.doSaveButton.setText(QApplication.translate("PythonScreenShot", "Save to ..."))
+        self.ui.doSendClearButton.setText(QApplication.translate("PythonScreenShot", "Clear Error"))
+        self.ui.doSendResetButton.setText(QApplication.translate("PythonScreenShot", "Send Reset"))
+        self.ui.doGetLastErrorButton.setText(QApplication.translate("PythonScreenShot", "Get Last Error"))
+        self.ui.doRunButton.setText(QApplication.translate("PythonScreenShot", "Send Run"))
+        self.ui.doSendCommandButton.setText(QApplication.translate("PythonScreenShot", "Send Command"))
+        
+        # Update labels
+        self.ui.labelStatic.setText(QApplication.translate("PythonScreenShot", "Available VISA Instruments"))
+        self.ui.labelAutoRefPeriod.setText(QApplication.translate("PythonScreenShot", "Auto Refresh Period (ms)"))
+        self.ui.labelScpiCommand.setText(QApplication.translate("PythonScreenShot", "SCPI Command Text"))
+        self.ui.labelScpiReplyStatic.setText(QApplication.translate("PythonScreenShot", "Last SCPI Reply"))
+        
+        # Update checkbox
+        self.ui.binaryData.setText(QApplication.translate("PythonScreenShot", "Bin"))
+        
+        # Update table headers
+        headers = ["Name", "Description", "Manufacturer", "VISA ID"]
+        for i, header in enumerate(headers):
+            item = self.ui.instrTable.horizontalHeaderItem(i)
+            if item:  # Make sure the header item exists
+                item.setText(QApplication.translate("PythonScreenShot", header))
+        
+        # Update tooltips
+        self.ui.languageComboBox.setToolTip(QApplication.translate("PythonScreenShot", "Select Language"))
+        
+        # Update SCPI reply label - only translate if it's the default none text
+        current_text = self.ui.labelScpiReply.text()
+        translated_none = QApplication.translate("PythonScreenShot", self.none_text)
+        if current_text.startswith("*") and current_text.endswith("*"):
+            self.ui.labelScpiReply.setText(translated_none)
+    
     def doFind(self):
         QApplication.setOverrideCursor(Qt.WaitCursor)
         self.ui.doAutoRefreshButton.setChecked(False)
@@ -985,6 +1100,7 @@ class PythonScreenShot(QWidget):
 if __name__ == '__main__':
     
     app     = QApplication(sys.argv)
+    load_translations(app)
     app.setStyle('Windows')
     inst    = PythonScreenShot()
     sys.exit(app.exec())

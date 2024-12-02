@@ -229,6 +229,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="binaryData">
+           <property name="text">
+            <string>Bin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <layout class="QVBoxLayout" name="commandEntryLayout">
            <item>
             <widget class="QLabel" name="labelScpiCommand">

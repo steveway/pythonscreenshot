@@ -48,7 +48,8 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QFileDialog,
     QMessageBox,
-    QSizePolicy
+    QSizePolicy,
+    QCheckBox
 )
 from PySide6.QtGui import (
     QPixmap,
@@ -233,7 +234,22 @@ class InstrumentCommunicator:
         """Send a SCPI query to instrument"""
         try:
             instr = rm.open_resource(visa_id, chunk_size=DEFAULT_CHUNK_SIZE, timeout=DEFAULT_TIMEOUT)
-            result = instr.query(command, delay=0.5)
+            # Check if this is a binary data query (screenshots, etc.)
+            cmd_upper = command.upper()
+            is_binary = any(x in cmd_upper for x in ['BMP', 'SNAP?', 'HCOP', 'DUMP', 'DATA?', 'DISP:DATA?'])
+            
+            if is_binary:
+                instr.write(command)
+                result = instr.read_raw()
+                # Handle IEEE 488.2 binary block format
+                if result.startswith(b'#'):
+                    # Skip the '#' and read the length of the size field
+                    num_digits = int(chr(result[1]))
+                    # Skip the header (#9xxxxxxxxx) and get the actual data
+                    header_size = 2 + num_digits  # 2 for '#9', and then the digits
+                    result = result[header_size:]
+            else:
+                result = instr.query(command, delay=0.5)
             return result
         except Exception as e:
             print(f"Error sending query: {e}")
@@ -856,10 +872,55 @@ class PythonScreenShot(QWidget):
         #print(cmdText)
         if (len(cmdText) > 0):
             cmdTextParts = cmdText.split(' ')
-            if cmdTextParts[0].endswith('?'):
+            if "?" in cmdTextParts[0]:
                 result = InstrumentCommunicator.send_query(visaId,cmdText)
                 #print(result)
-                self.ui.labelScpiReply.setText(result)
+                
+                # For binary data, show a message instead of the raw data
+                if isinstance(result, bytes):
+                    display_text = "[Binary data received]"
+                else:
+                    display_text = result
+                    
+                self.ui.labelScpiReply.setText(display_text)
+                
+                # Save query data if binaryData checkbox is checked
+                if self.ui.binaryData.isChecked():
+                    import os
+                    import datetime
+                    
+                    # Create data directory using get_file_near_exe
+                    data_dir = get_file_near_exe('query_data')
+                    os.makedirs(data_dir, exist_ok=True)
+                    
+                    # Generate filename with timestamp and appropriate extension
+                    timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    cmd_upper = cmdText.upper()
+                    # Determine file extension based on command
+                    if 'BMP' in cmd_upper:
+                        extension = '.bmp'
+                    elif any(x in cmd_upper for x in ['HCOP', 'DUMP', 'DATA?', 'DISP:DATA?']):
+                        extension = '.png'  # Most modern scopes use PNG format
+                    else:
+                        extension = '.dat'
+                    filename = f'query_{timestamp}{extension}'
+                    filepath = os.path.join(data_dir, filename)
+                    
+                    # Save the raw response data
+                    try:
+                        if isinstance(result, (bytes, bytearray)):
+                            data = result
+                        else:
+                            # If result is string or other type, encode it
+                            data = str(result).encode('utf-8')
+                            
+                        with open(filepath, 'wb') as f:
+                            f.write(data)
+                            
+                        # Update status to show where file was saved
+                        self.ui.labelScpiReply.setText(f'Data saved to: {filepath}')
+                    except Exception as e:
+                        self.ui.labelScpiReply.setText(f'Error saving data: {str(e)}\n\nResponse: {result}')
             else:
                 result = InstrumentCommunicator.send_command(visaId,cmdText)
                 #print(result)

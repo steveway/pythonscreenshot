@@ -4,3 +4,5 @@ __pycache__/
 build.log
 compilation-report.xml
 screenshot.log
+query_data/
+SCREENSHOT.BMP

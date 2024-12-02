@@ -18,8 +18,7 @@ Scope Keysight S:
     container: bytearray
 
 Scope Batronix:
-  commands:
-    - "DISPlay:SCReenshot?"
+  commands: []
   query_type: binary_values
   query_command: "DISPlay:SCReenshot? PNG"
   file_type: PNG
@@ -57,7 +56,7 @@ Scope Tektronix:
 
 VNA Keysight:
   commands:
-    - ':MMEM:STOR:IMAG "D:\SCREENSHOT.PNG"'
+    - ':MMEM:STOR:IMAG "D:\SCREENSHOT.PNG\n"'
   query_type: binary_values
   query_command: ':MMEM:TRAN? "D:\SCREENSHOT.PNG"'
   file_type: PNG
@@ -86,6 +85,16 @@ RF Signal Generator Keysight:
     datatype: B
     container: bytearray
 
+Spectrum Analyzer Siglent:
+  commands:
+    - ':HCOPy:SDUMp:DATA?'
+  query_type: ascii_values
+  query_command: ':HCOPy:SDUMp:DATA?'
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+
 Spectrum Analyzer Keysight:
   commands:
     - ':MMEM:STOR:SCR "D:\SCREENSHOT.PNG"'
@@ -95,6 +104,28 @@ Spectrum Analyzer Keysight:
   binary_params:
     datatype: B
     container: bytearray
+
+Spectrum Analyzer Rigol:
+  commands: []
+  query_type: binary_values
+  query_command: ':PRIV:SNAP? BMP'
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Signal Analyzer R&S:
+  commands:
+    - ":HCOP:DEV:LANG1 PNG; *WAI"
+    - ":MMEM:NAME 'C:/R_S/INSTR/USER/PRINT1.PNG'; *WAI"
+    - ":HCOP:IMM1; *WAI"
+  query_type: binary_values
+  query_command: ":MMEM:DATA? 'C:/R_S/INSTR/USER/PRINT1.PNG'"
+  file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+    delay: 0.1
 
 Digital Multimeter Keysight:
   commands:
@@ -151,6 +182,35 @@ Function Generator Rigol 4000:
   query_type: binary_values
   query_command: ":HCOP:SDUM:DATA?"
   file_type: BMP
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Arbitrary Function Generator Tektronix:
+  commands: []
+  query_type: binary_values
+  query_command: ':DISP:DATA?'
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Function Generator Keysight 3Series:
+  commands:
+    - ':HCOP:SDUM:DATA:FORM PNG; *WAI'
+  query_type: binary_values
+  query_command: 'HCOP:SDUM:DATA'
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
+Counter Keysight:
+  commands:
+    - ':HCOP:SDUM:DATA:FORM PNG; *WAI'
+  query_type: binary_values
+  query_command: 'HCOP:SDUM:DATA'
+  file_type: PNG
   binary_params:
     datatype: B
     container: bytearray

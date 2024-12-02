@@ -1,4 +1,7 @@
 INSTRUMENT;TYPE
+SVA1015X;Spectrum Analyzer Siglent
+SSA3021X PLUS;Spectrum Analyzer Siglent
+SSA3032X PLUS;Spectrum Analyzer Siglent
 MAGNOVA; Scope Batronix
 DSOS804A;Scope Keysight S
 DSOS604A;Scope Keysight S

@@ -129,6 +129,10 @@ DEFAULT_TIMEOUT = 30000
 INSTRUMENTS_CSV = get_file_near_exe('config/PythonScreenShotInstruments.CSV')
 SCREENSHOT_CONFIG = get_file_near_exe('config/instrument_screenshots.yaml')
 VERSION_CONFIG = get_file_inside_exe('config/version.yaml')
+SCREENSHOT_DIR = get_file_near_exe("screenshots")  # Directory to store screenshots
+
+# Ensure screenshots directory exists
+os.makedirs(SCREENSHOT_DIR, exist_ok=True)
 
 # Global variables
 rm = pyvisa.ResourceManager()
@@ -139,25 +143,24 @@ rm = pyvisa.ResourceManager()
 
 class FileManager:
     """Handles file operations"""
+    
     @staticmethod
-    def delete_file(file_name: str) -> None:
+    def delete_file(file_name: str):
         """Delete a file if it exists"""
-        try:
+        if os.path.exists(file_name):
             os.remove(file_name)
-        except OSError:
-            pass
-
+            logging.info(f"Deleted file: {file_name}")
+    
     @staticmethod
-    def write_binary_file(data: Union[bytes, bytearray], file_name: str) -> None:
+    def write_binary_file(data: Union[bytes, bytearray], file_name: str):
         """Write binary data to file"""
-        with open(file_name, 'wb') as file_handle:
-            file_handle.write(data)
-
-    @staticmethod
-    def cleanup_screenshots() -> None:
-        """Delete existing screenshot files"""
-        for ext in SCREENSHOT_EXTENSIONS:
-            FileManager.delete_file(f'SCREENSHOT{ext}')
+        try:
+            with open(file_name, 'wb') as f:
+                f.write(data)
+            logging.info(f"Successfully wrote data to: {file_name}")
+        except Exception as e:
+            logging.error(f"Error writing file {file_name}: {str(e)}")
+            raise
 
 class VersionManager:
     """Manages application version information"""
@@ -321,16 +324,15 @@ def GetScreenShot(instrType, visaId):
                 logging.info("Attempting Arduino device screenshot")
                 instr = rm.open_resource(visaId, chunk_size=DEFAULT_CHUNK_SIZE, timeout=DEFAULT_TIMEOUT)
                 result = GetArDeviceScreenShot(instr)
-                return 'SCREENSHOT.PNG'
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                filename = os.path.join(SCREENSHOT_DIR, f'SCREENSHOT_{timestamp}.PNG')
+                FileManager.write_binary_file(result, filename)
+                return filename
             except Exception as e:
                 logging.error(f"Error getting Arduino screenshot: {e}")
                 return ''
         return ''
 
-    # Clean up existing files if needed
-    logging.info("Cleaning up existing screenshot files")
-    FileManager.cleanup_screenshots()
-    
     try:
         # Connect to instrument
         logging.info(f"Connecting to instrument: {visaId}")
@@ -372,11 +374,12 @@ def GetScreenShot(instrType, visaId):
             logging.info("Using read_raw to get screenshot data")
             result = instr.read_raw()
         
-        # Determine filename and save
-        fileName = f"SCREENSHOT.{config['file_type']}"
-        logging.info(f"Saving screenshot to: {fileName}")
-        FileManager.write_binary_file(result, fileName)
-        return fileName
+        # Determine filename with timestamp and save
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        filename = os.path.join(SCREENSHOT_DIR, f'SCREENSHOT_{timestamp}.{config["file_type"]}')
+        logging.info(f"Saving screenshot to: {filename}")
+        FileManager.write_binary_file(result, filename)
+        return filename
         
     except Exception as e:
         logging.error(f"Error getting screenshot: {str(e)}", exc_info=True)
@@ -773,12 +776,11 @@ class PythonScreenShot(QWidget):
     
     def update_translations(self):
         """Update all translatable UI elements after language change."""
-        # Update window title
-        self.setWindowTitle(QApplication.translate("PythonScreenShot", 
-            "DL1DWG Python Screenshot GUI V1.5 2020/06 (C) DL1DWG under GPL V3"))
+        # Update window title and version info using VersionManager
+        self.setWindowTitle(self.version_manager.window_title)
+        self.ui.headerTopZ.setText(self.version_manager.version_string)
         
         # Update header labels
-        self.ui.headerTopZ.setText(QApplication.translate("PythonScreenShot", "V1.5 2020/06"))
         self.ui.headerTopS.setText(QApplication.translate("PythonScreenShot", "PYTHON SCPI SCREENSHOT"))
         
         # Update buttons

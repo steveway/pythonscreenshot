@@ -17,6 +17,16 @@ Scope Keysight S:
     datatype: B
     container: bytearray
 
+Scope R&S RTB:
+  commands:
+    - ":HCOPy:FORMat PNG"
+  query_type: binary_values
+  query_command: ":HCOPy:DATA?"
+  file_type: PNG
+  binary_params:
+    datatype: B
+    container: bytearray
+
 Scope Batronix:
   commands: []
   query_type: binary_values

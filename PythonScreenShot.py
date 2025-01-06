@@ -557,9 +557,10 @@ def GetVisaSCPIResources(optional_ip_address=None, network_timeout=10000):
                 availableNameList.append(resourceReply)
         except:
             pass
-    if "TCPIP" not in optional_ip_address:
-        optional_ip_address = f"TCPIP::{optional_ip_address}"
-    if (optional_ip_address != None):
+
+    if optional_ip_address:
+        if "TCPIP" not in optional_ip_address:
+            optional_ip_address = f"TCPIP::{optional_ip_address}"
         network_instrument = rm.open_resource(optional_ip_address)
         network_instrument.read_termination = '\n'
         network_instrument.timeout = network_timeout
@@ -660,7 +661,7 @@ class PythonScreenShot(QWidget):
         self.updateScreenshot()
 
     def updateScreenshot(self):
-        """Update the screenshot display"""
+        """Update the screenshot display with high-quality scaling"""
         try:
             if not hasattr(self, 'screenshotPixMap') or self.screenshotPixMap is None:
                 return
@@ -678,6 +679,14 @@ class PythonScreenShot(QWidget):
                 Qt.KeepAspectRatio
             )
 
+            # Scale the original pixmap with high-quality transformation
+            scaled_pixmap = self.screenshotPixMap.scaled(
+                scaled_size.width(),
+                scaled_size.height(),
+                Qt.KeepAspectRatio,
+                Qt.SmoothTransformation
+            )
+
             # Create a new pixmap with the background color
             result_pixmap = QPixmap(available_size)
             result_pixmap.fill(Qt.white)
@@ -688,12 +697,9 @@ class PythonScreenShot(QWidget):
 
             # Draw the scaled image onto the background
             painter = QPainter(result_pixmap)
-            painter.drawPixmap(
-                x, y,
-                scaled_size.width(),
-                scaled_size.height(),
-                self.screenshotPixMap
-            )
+            painter.setRenderHint(QPainter.Antialiasing)
+            painter.setRenderHint(QPainter.SmoothPixmapTransform)
+            painter.drawPixmap(x, y, scaled_pixmap)
             painter.end()
 
             # Set the final pixmap

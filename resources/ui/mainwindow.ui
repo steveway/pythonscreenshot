@@ -54,9 +54,6 @@
        </item>
        <item>
         <widget class="QComboBox" name="languageComboBox">
-         <property name="minimumWidth">
-          <number>120</number>
-         </property>
          <property name="toolTip">
           <string>Select Language</string>
          </property>
@@ -89,6 +86,46 @@
         <string>Find Instruments</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="ip_label">
+         <property name="text">
+          <string>IP:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="manualIP"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Timeout:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="networkTimeout">
+         <property name="suffix">
+          <string>ms</string>
+         </property>
+         <property name="prefix">
+          <string/>
+         </property>
+         <property name="maximum">
+          <number>99999</number>
+         </property>
+         <property name="stepType">
+          <enum>QAbstractSpinBox::StepType::AdaptiveDecimalStepType</enum>
+         </property>
+         <property name="value">
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QLabel" name="labelStatic">

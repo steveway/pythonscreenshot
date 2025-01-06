@@ -527,7 +527,7 @@ def GetKeysightU2004ADeviceScreenShot(instr):
 # --------------------------------------------------------------------------- #
 # get all VISA resources responding to a *IDN? query                          #
 # --------------------------------------------------------------------------- #
-def GetVisaSCPIResources():
+def GetVisaSCPIResources(optional_ip_address=None, network_timeout=10000):
 
     # enumerate all resources VISA finds
     rm                  = pyvisa.ResourceManager()
@@ -557,6 +557,18 @@ def GetVisaSCPIResources():
                 availableNameList.append(resourceReply)
         except:
             pass
+    if "TCPIP" not in optional_ip_address:
+        optional_ip_address = f"TCPIP::{optional_ip_address}"
+    if (optional_ip_address != None):
+        network_instrument = rm.open_resource(optional_ip_address)
+        network_instrument.read_termination = '\n'
+        network_instrument.timeout = network_timeout
+        resourceReply      = network_instrument.query('*IDN?').upper()
+        # Only add if we haven't seen this device before
+        if (resourceReply != '' and resourceReply not in seen_resources):
+            seen_resources.add(resourceReply)
+            availableVisaIdList.append(optional_ip_address)
+            availableNameList.append(resourceReply)
             
     return availableVisaIdList, availableNameList
 
@@ -825,7 +837,9 @@ class PythonScreenShot(QWidget):
         try:
             self.ui.instrTable.clear()
             self.ui.instrTable.setHorizontalHeaderLabels(['Name','Description','Manufacturer','VISA ID'])
-            self.visaIdList, self.nameList = GetVisaSCPIResources()
+            optional_ip_address = self.ui.manualIP.text()
+            network_timeout = int(self.ui.networkTimeout.value())
+            self.visaIdList, self.nameList = GetVisaSCPIResources(optional_ip_address, network_timeout)
             self.ui.instrTable.setRowCount(len(self.nameList))
             for i in range(len(self.nameList)):
                 nameListComps = self.nameList[i].split(',')

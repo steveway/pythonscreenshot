@@ -15,17 +15,156 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="leftPanel">
-     <property name="sizeConstraint">
-      <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
-     <property name="minimumWidth" stdset="0">
-      <number>500</number>
-     </property>
-     <item>
-      <layout class="QHBoxLayout" name="headerLayout">
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="leftPanel">
+       <property name="sizeConstraint">
+        <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+       </property>
+       <property name="minimumWidth" stdset="0">
+        <number>500</number>
+       </property>
        <item>
-        <widget class="QLabel" name="headerTopZ">
+        <layout class="QHBoxLayout" name="headerLayout">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="headerTopZ">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>12</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>V1.5 2020/06</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="headerTopS">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>18</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>PYTHON SCPI SCREENSHOT</string>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QComboBox" name="languageComboBox">
+           <property name="toolTip">
+            <string>Select Language</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="scpiDinoLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="doFindButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Find Instruments</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="ip_label">
+           <property name="text">
+            <string>IP:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="manualIP"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Timeout:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="networkTimeout">
+           <property name="suffix">
+            <string>ms</string>
+           </property>
+           <property name="prefix">
+            <string/>
+           </property>
+           <property name="maximum">
+            <number>99999</number>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::StepType::AdaptiveDecimalStepType</enum>
+           </property>
+           <property name="value">
+            <number>10000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelStatic">
          <property name="font">
           <font>
            <family>Tahoma</family>
@@ -34,315 +173,227 @@
           </font>
          </property>
          <property name="text">
-          <string>V1.5 2020/06</string>
+          <string>Available VISA Instruments</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="headerTopS">
-         <property name="font">
-          <font>
-           <family>Tahoma</family>
-           <pointsize>18</pointsize>
-           <bold>true</bold>
-          </font>
+        <widget class="QTableWidget" name="instrTable">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
          </property>
-         <property name="text">
-          <string>PYTHON SCPI SCREENSHOT</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="languageComboBox">
-         <property name="toolTip">
-          <string>Select Language</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="scpiDinoLabel">
          <property name="minimumSize">
           <size>
            <width>100</width>
            <height>100</height>
           </size>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
          </property>
-         <property name="text">
-          <string/>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
          </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="doFindButton">
-       <property name="text">
-        <string>Find Instruments</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="ip_label">
-         <property name="text">
-          <string>IP:</string>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="manualIP"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Timeout:</string>
-         </property>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Description</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Manufacturer</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>VISA ID</string>
+          </property>
+         </column>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="networkTimeout">
-         <property name="suffix">
-          <string>ms</string>
-         </property>
-         <property name="prefix">
-          <string/>
-         </property>
-         <property name="maximum">
-          <number>99999</number>
-         </property>
-         <property name="stepType">
-          <enum>QAbstractSpinBox::StepType::AdaptiveDecimalStepType</enum>
-         </property>
-         <property name="value">
-          <number>10000</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="labelStatic">
-       <property name="font">
-        <font>
-         <family>Tahoma</family>
-         <pointsize>12</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Available VISA Instruments</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="instrTable">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>500</width>
-         <height>100</height>
-        </size>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-       </property>
-       <column>
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Description</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Manufacturer</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>VISA ID</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="refreshLayout">
-       <item>
-        <widget class="QPushButton" name="doRefreshButton">
-         <property name="text">
-          <string>Get Screen</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="doAutoRefreshButton">
-         <property name="text">
-          <string>Auto Refresh</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="refreshPeriodLayout">
+        <layout class="QHBoxLayout" name="refreshLayout">
          <item>
-          <widget class="QLabel" name="labelAutoRefPeriod">
+          <widget class="QPushButton" name="doRefreshButton">
            <property name="text">
-            <string>Auto Refresh Period (ms)</string>
+            <string>Get Screen</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="autoRefPeriodEntry">
+          <widget class="QPushButton" name="doAutoRefreshButton">
            <property name="text">
-            <string>1000</string>
+            <string>Auto Refresh</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="refreshPeriodLayout">
+           <item>
+            <widget class="QLabel" name="labelAutoRefPeriod">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Auto Refresh Period (ms)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="autoRefPeriodEntry">
+             <property name="text">
+              <string>1000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="doSaveButton">
+           <property name="text">
+            <string>Save to ...</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="doSaveButton">
-         <property name="text">
-          <string>Save to ...</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="commandButtonsLayout">
-       <item>
-        <widget class="QPushButton" name="doSendClearButton">
-         <property name="text">
-          <string>Clear Error</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="doSendResetButton">
-         <property name="text">
-          <string>Send Reset</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="doGetLastErrorButton">
-         <property name="text">
-          <string>Get Last Error</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="doRunButton">
-         <property name="text">
-          <string>Send Run</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="scpiCommandLayout">
-       <item>
-        <layout class="QHBoxLayout" name="sendCommandLayout">
+        <layout class="QHBoxLayout" name="commandButtonsLayout">
          <item>
-          <widget class="QPushButton" name="doSendCommandButton">
+          <widget class="QPushButton" name="doSendClearButton">
            <property name="text">
-            <string>Send Command</string>
+            <string>Clear Error</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="binaryData">
+          <widget class="QPushButton" name="doSendResetButton">
            <property name="text">
-            <string>Bin</string>
+            <string>Send Reset</string>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="commandEntryLayout">
+          <widget class="QPushButton" name="doGetLastErrorButton">
+           <property name="text">
+            <string>Get Last Error</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="doRunButton">
+           <property name="text">
+            <string>Send Run</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="scpiCommandLayout">
+         <item>
+          <layout class="QHBoxLayout" name="sendCommandLayout">
            <item>
-            <widget class="QLabel" name="labelScpiCommand">
+            <widget class="QPushButton" name="doSendCommandButton">
              <property name="text">
-              <string>SCPI Command Text</string>
+              <string>Send Command</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="scpiCommandEntry"/>
+            <widget class="QCheckBox" name="binaryData">
+             <property name="text">
+              <string>Bin</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="commandEntryLayout">
+             <item>
+              <widget class="QLabel" name="labelScpiCommand">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>SCPI Command Text</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="scpiCommandEntry"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="replyLayout">
+           <item>
+            <widget class="QLabel" name="labelScpiReplyStatic">
+             <property name="text">
+              <string>Last SCPI Reply</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelScpiReply">
+             <property name="text">
+              <string>*None*</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
         </layout>
        </item>
-       <item>
-        <layout class="QHBoxLayout" name="replyLayout">
-         <item>
-          <widget class="QLabel" name="labelScpiReplyStatic">
-           <property name="text">
-            <string>Last SCPI Reply</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelScpiReply">
-           <property name="text">
-            <string>*None*</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
       </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="screenshotLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>2</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
-     </property>
+     </widget>
+     <widget class="QLabel" name="screenshotLabel">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>2</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
